@@ -26,4 +26,4 @@ COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 
 # Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
