@@ -16,10 +16,11 @@ const EditUser = () => {
       .then((data) => setData(data));
   }, []);
 
-  const handleChange = (name: string) => (e) => {
-    const value = name === 'image' ? e?.target?.files[0] : e?.target?.value;
-    setData({ ...data, [name]: value });
-  };
+  const handleChange =
+    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = name === 'image' ? e?.target?.files?.[0] : e?.target?.value;
+      setData({ ...data, [name]: value });
+    };
 
   const handleSubmit = async () => {
     try {
