@@ -1,29 +1,32 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AddUser = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    name: "",
-    image: "",
+    name: '',
+    image: '',
   });
-  const handleChange = (name) => (e) => {
-    const value = name === "image" ? e.target.files[0] : e.target.value;
+  const handleChange = (name: string) => (e) => {
+    const value = name === 'image' ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
   };
   const handleSubmit = async () => {
     try {
-      let formData = new FormData();
-      formData.append("image", data.image);
-      formData.append("name", data.name);
+      const formData = new FormData();
+      formData.append('image', data.image);
+      formData.append('name', data.name);
 
-      const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/user`, {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_SERVER_URL}/user`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
       if (res.ok) {
-        setData({ name: "", image: "" });
-        navigate("/", { replace: true });
+        setData({ name: '', image: '' });
+        navigate('/', { replace: true });
       }
     } catch (error) {
       console.log(error);
@@ -31,7 +34,7 @@ const AddUser = () => {
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: "auto" }}>
+    <div style={{ maxWidth: 500, margin: 'auto' }}>
       <div className="mb-3">
         <input
           className="form-control"
@@ -39,7 +42,7 @@ const AddUser = () => {
           type="text"
           name="name"
           value={data.name}
-          onChange={handleChange("name")}
+          onChange={handleChange('name')}
         />
       </div>
       <div className="mb-3">
@@ -48,7 +51,7 @@ const AddUser = () => {
           type="file"
           accept="image/*"
           name="image"
-          onChange={handleChange("image")}
+          onChange={handleChange('image')}
         />
       </div>
       <div className="text-center">

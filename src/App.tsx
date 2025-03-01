@@ -1,8 +1,8 @@
-import { Routes, BrowserRouter, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import AddUser from "./pages/AddUser";
-import EditUser from "./pages/EditUser";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from '@/components/Navbar';
+import Home from '@/pages/Home';
+import AddUser from '@/pages/AddUser';
+import EditUser from '@/pages/EditUser';
 
 function App() {
   return (

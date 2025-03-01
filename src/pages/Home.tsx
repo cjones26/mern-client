@@ -1,27 +1,37 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState<
+    | {
+        _id: string;
+        avatar: string;
+        name: string;
+      }[]
+    | never
+  >();
   useEffect(() => {
     const fetchUsers = async () => {
-      const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/user`);
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_SERVER_URL}/user`
+      );
       const data = await res.json();
+
       setUsers(data);
     };
     fetchUsers();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/user/${id}`,
+        `${import.meta.env.VITE_REACT_APP_SERVER_URL}/user/${id}`,
         {
-          method: "DELETE",
+          method: 'DELETE',
         }
       );
       if (res.ok) {
-        const updatedUsers = users.filter((user) => user._id !== id);
+        const updatedUsers = users?.filter((user) => user._id !== id);
         setUsers(updatedUsers);
       }
     } catch (error) {
@@ -32,13 +42,13 @@ const Home = () => {
     <div className="row center">
       {users?.map((user) => (
         <div className="card me-3 mt-2 p-0" key={user._id}>
-          <img src={user.avatar} alt="" width={"100%"} height={200} />
+          <img src={user.avatar} alt="" width={'100%'} height={200} />
           <div className="p-4">
             <h4 className="text-center">{user.name}</h4>
             <div className="d-flex justify-content-between align-items-center">
               <Link
                 to={`/edit/${user._id}`}
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: 'none' }}
                 className="edit-button"
               >
                 Edit

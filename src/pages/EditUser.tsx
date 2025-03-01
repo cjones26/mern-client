@@ -1,42 +1,42 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const EditUser = ({ match }) => {
+const EditUser = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const userid = pathname.substring(pathname.lastIndexOf("/") + 1);
+  const userid = pathname.substring(pathname.lastIndexOf('/') + 1);
 
   const [data, setData] = useState({
-    name: "",
-    image: "",
+    name: '',
+    image: '',
   });
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/user/${userid}`)
+    fetch(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/user/${userid}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
 
-  const handleChange = (name) => (e) => {
-    const value = name === "image" ? e?.target?.files[0] : e?.target?.value;
+  const handleChange = (name: string) => (e) => {
+    const value = name === 'image' ? e?.target?.files[0] : e?.target?.value;
     setData({ ...data, [name]: value });
   };
 
   const handleSubmit = async () => {
     try {
-      let formData = new FormData();
-      formData.append("image", data?.image);
-      formData.append("name", data?.name);
+      const formData = new FormData();
+      formData.append('image', data?.image);
+      formData.append('name', data?.name);
 
       const res = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/user/${userid}`,
+        `${import.meta.env.VITE_REACT_APP_SERVER_URL}/user/${userid}`,
         {
-          method: "PUT",
+          method: 'PUT',
           body: formData,
         }
       );
       if (res.ok) {
-        setData({ name: "", image: "" });
-        navigate("/", { replace: true });
+        setData({ name: '', image: '' });
+        navigate('/', { replace: true });
       }
     } catch (error) {
       console.log(error);
@@ -44,14 +44,14 @@ const EditUser = ({ match }) => {
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: "auto" }}>
+    <div style={{ maxWidth: 500, margin: 'auto' }}>
       <div className="mb-3">
         <input
           className="form-control"
           type="text"
           name="name"
           value={data.name}
-          onChange={handleChange("name")}
+          onChange={handleChange('name')}
         />
       </div>
       <div className="mb-3">
@@ -60,7 +60,7 @@ const EditUser = ({ match }) => {
           type="file"
           accept="image/*"
           name="image"
-          onChange={handleChange("image")}
+          onChange={handleChange('image')}
         />
       </div>
       <div className="text-center">
